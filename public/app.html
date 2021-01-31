@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RICO CLASS ROOM PWA </title>
+    <link rel="stylesheet" href="lib/onsen/css/onsenui.css" />
+    <link rel="stylesheet" href="lib/onsen/css/onsen-css-components.css" />
+    <link
+      rel="stylesheet"
+      href="lib/onsen/css/font_awesome/css/font-awesome.css"
+    />
+    <script src="lib/onsen/js/onsenui.js"></script>
+  </head>
+  <body>
+    <ons-navigator id="appNavigator">
+      <ons-page>
+        <ons-splitter id="appSplitter">
+          <ons-splitter-side
+            id="sidemenu"
+            page="sidemenu.html"
+            side="right"
+            collapse=""
+            width="260px"
+          ></ons-splitter-side>
+          <ons-splitter-content page="tabbar.html"></ons-splitter-content>
+        </ons-splitter>
+      </ons-page>
+    </ons-navigator>
+
+    <template id="tabbar.html">
+      <ons-page id="tabbar-page">
+        <ons-toolbar>
+          <div class="center">RICO CLASS ROOM PWA</div>
+          <div class="right">
+            <ons-toolbar-button onclick="fn.toggleMenu()">
+              <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
+            </ons-toolbar-button>
+          </div>
+        </ons-toolbar>
+        <ons-tabbar id="appTabbar" position="auto">
+          <ons-tab
+            label="Classroom"
+            icon="ion-compose"
+            page="classroom.html"
+            active
+          ></ons-tab>
+          <ons-tab
+            label="Dashboard"
+            icon="fa-tachometer"
+            page="dashboard.html"
+          ></ons-tab>
+        </ons-tabbar>
+
+        <script>
+          ons.getScriptPage().addEventListener("prechange", function (event) {
+            if (event.target.matches("#appTabbar")) {
+              event.currentTarget.querySelector(
+                "ons-toolbar .center"
+              ).innerHTML = event.tabItem.getAttribute("label");
+            }
+          });
+        </script>
+      </ons-page>
+    </template>
+
+    <template id="sidemenu.html">
+      <ons-page>
+        <ons-list-title style="margin-top: 10px; margin-left: 10px;"
+          >ACCESS</ons-list-title
+        >
+        <div class="underline"></div>
+        <ons-list>         
+          <ons-list-item
+            onclick="fn.loadLink('https://ricoclassroom.herokuapp.com/dashboard/index.html')"
+          >
+            <div class="left">
+              <ons-icon
+                fixed-width
+                class="list-item__icon"
+                icon="fa-exclamation"
+              ></ons-icon>
+            </div>
+            <div class="center">
+              ADMIN
+            </div>
+            <div class="right">
+              <ons-icon icon="fa-external-link"></ons-icon>
+            </div>
+          </ons-list-item>
+          <ons-list-item onclick="fn.loadLink('https:whatsappweb.com')">
+            <div class="left">
+              <ons-icon
+                fixed-width
+                class="list-item__icon"
+                icon="fa-whatsapp"
+                style="font-size: larger;"
+              ></ons-icon>
+            </div>
+            <div class="center">
+              WHATSAPP
+            </div>
+            <div class="right">
+              <ons-icon icon="fa-external-link"></ons-icon>
+            </div>
+          </ons-list-item>
+           <ons-list-item
+            onclick="fn.loadLink('https:googledrive.com')"
+          >
+            <div class="left">
+              <ons-icon
+                fixed-width
+                class="list-item__icon"
+                icon="fa-book"
+              ></ons-icon>
+            </div>
+            <div class="center">
+              LESSON NOTES
+            </div>
+            <div class="right">
+              <ons-icon icon="fa-external-link"></ons-icon>
+            </div>
+          </ons-list-item>         
+        </ons-list>
+
+        <script>
+          ons.getScriptPage().onInit = function () {
+            // Set ons-splitter-side animation
+            this.parentElement.setAttribute(
+              "animation",
+              ons.platform.isAndroid() ? "overlay" : "reveal"
+            );
+          };
+        </script>
+
+        <style>
+          .profile-pic {
+            width: 200px;
+            background-color: #fff;
+            margin: 20px auto 10px;
+            border: 1px solid #999;
+            border-radius: 4px;
+          }
+
+          .profile-pic > img {
+            display: block;
+            max-width: 100%;
+          }
+
+          ons-list-item {
+            color: #444;
+          }
+        </style>
+      </ons-page>
+    </template>
+
+    <template id="classroom.html">
+      <ons-page>
+        <body style="margin: 0px; padding: 0px; overflow: hidden;">
+          <iframe
+            src="./board.html"
+            frameborder="0"
+            style="
+              overflow: hidden;
+              overflow-x: hidden;
+              overflow-y: hidden;
+              height: 100%;
+              width: 100%;
+              position: absolute;
+              top: 0px;
+              left: 0px;
+              right: 0px;
+              bottom: 0px;
+            "
+            height="100%"
+            width="100%"
+          ></iframe>
+        </body>
+        <ons-fab
+          style="background-color: #00ed92; width: 80px; height: 80px;"
+          position="bottom right"
+          onclick="fn.pushPage({'id': 'livestream.html', 'title': 'default'}, 'default')"
+        >
+          <iframe
+            src="./viewer.html"
+            onclick="fn.pushPage({'id': 'livestream.html', 'title': 'default'}, 'default')"
+            frameborder="0"
+            style="top: 10px; border-radius: 70px; width: 75px; height: 75px;"
+          ></iframe>
+        </ons-fab>
+      </ons-page>
+    </template>
+
+    <template id="livestreaming.html">
+      <ons-page>
+        <body style="margin: 0px; padding: 0px; overflow: hidden;">
+          <iframe
+            src="./livestream.html"
+            frameborder="0"
+            style="
+              overflow: hidden;
+              overflow-x: hidden;
+              overflow-y: hidden;
+              height: 100%;
+              width: 100%;
+              position: absolute;
+              top: 0px;
+              left: 0px;
+              right: 0px;
+              bottom: 0px;
+            "
+            height="100%"
+            width="100%"
+          ></iframe>
+        </body>
+      </ons-page>
+    </template>
+
+    <template id="dashboard.html">
+      <ons-page>
+        <ons-card
+          onclick="fn.pushPage({'id': 'slides.html', 'title': 'REAL TIME PRESENTATIONS'})"
+        >
+          <div class="title">Presentations</div>
+          <div class="content">
+            View the live presentation now
+          </div>
+        </ons-card>
+        <ons-card
+          onclick="fn.pushPage({'id': 'livechat.html', 'title': 'Live Chat'})"
+        >
+          <div class="title">Live Chat</div>
+          <div class="content">
+            Chat with other users currently attending
+          </div>
+        </ons-card>
+
+        <style>
+          .intro {
+            text-align: center;
+            padding: 0 20px;
+            margin-top: 40px;
+          }
+
+          ons-card {
+            cursor: pointer;
+            color: #333;
+          }
+
+          .card__title,
+          .card--material__title {
+            font-size: 20px;
+          }
+        </style>
+      </ons-page>
+    </template>
+
+    <template id="livestream.html">
+      <ons-page>
+        <ons-toolbar>
+          <div class="left">
+            <ons-back-button>Back</ons-back-button>
+          </div>
+          <div class="center"></div>
+        </ons-toolbar>
+        <iframe
+          src="./viewer.html"
+          frameborder="0"
+          style="
+            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: hidden;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+          "
+          height="100%"
+          width="100%"
+        ></iframe>
+        <script>
+          ons.getScriptPage().onInit = function () {
+            this.querySelector(
+              "ons-toolbar div.center"
+            ).textContent = this.data.title;
+          };
+        </script>
+      </ons-page>
+    </template>
+    <template id="livechat.html">
+      <ons-page>
+        <ons-toolbar>
+          <div class="left">
+            <ons-back-button>Back</ons-back-button>
+          </div>
+          <div class="center"></div>
+        </ons-toolbar>
+        <iframe
+          src="./chat.html"
+          frameborder="0"
+          style="
+            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: hidden;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+          "
+          height="100%"
+          width="100%"
+        ></iframe>
+        <script>
+          ons.getScriptPage().onInit = function () {
+            this.querySelector(
+              "ons-toolbar div.center"
+            ).textContent = this.data.title;
+          };
+        </script>
+      </ons-page>
+    </template>
+
+    <template id="slides.html">
+      <ons-page>
+        <ons-toolbar>
+          <div class="left">
+            <ons-back-button>Back</ons-back-button>
+          </div>
+          <div class="center"></div>
+        </ons-toolbar>
+        <iframe
+          src="./views/show.html"
+          frameborder="0"
+          style="
+            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: hidden;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+          "
+          height="100%"
+          width="100%"
+        ></iframe>
+        <script>
+          ons.getScriptPage().onInit = function () {
+            this.querySelector(
+              "ons-toolbar div.center"
+            ).textContent = this.data.title;
+          };
+        </script>
+      </ons-page>
+    </template>
+
+    <!-- Code injected by live-server -->
+    <script type="text/javascript">
+      // <![CDATA[  <-- For SVG support
+      if ("WebSocket" in window) {
+        (function () {
+          function refreshCSS() {
+            var sheets = [].slice.call(document.getElementsByTagName("link"));
+            var head = document.getElementsByTagName("head")[0];
+            for (var i = 0; i < sheets.length; ++i) {
+              var elem = sheets[i];
+              var parent = elem.parentElement || head;
+              parent.removeChild(elem);
+              var rel = elem.rel;
+              if (
+                (elem.href && typeof rel != "string") ||
+                rel.length == 0 ||
+                rel.toLowerCase() == "stylesheet"
+              ) {
+                var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, "");
+                elem.href =
+                  url +
+                  (url.indexOf("?") >= 0 ? "&" : "?") +
+                  "_cacheOverride=" +
+                  new Date().valueOf();
+              }
+              parent.appendChild(elem);
+            }
+          }
+          var protocol =
+            window.location.protocol === "http:" ? "ws://" : "wss://";
+          var address =
+            protocol + window.location.host + window.location.pathname + "/ws";
+          var socket = new WebSocket(address);
+          socket.onmessage = function (msg) {
+            if (msg.data == "reload") window.location.reload();
+            else if (msg.data == "refreshcss") refreshCSS();
+          };
+          if (
+            sessionStorage &&
+            !sessionStorage.getItem("IsThisFirstTime_Log_From_LiveServer")
+          ) {
+            console.log("Live reload enabled.");
+            sessionStorage.setItem("IsThisFirstTime_Log_From_LiveServer", true);
+          }
+        })();
+      } else {
+        console.error(
+          "Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading."
+        );
+      }
+      // ]]>
+    </script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

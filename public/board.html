@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Socket.IO whiteboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <canvas class="whiteboard" ></canvas>
+
+  <div class="colors">
+    <button class="color blue" id="one" style="border-radius: 10px;"></button>
+    <button class="color green" id="two" style="border-radius: 10px;"></button>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/main.js"></script>
+  <script>
+    const pdf = document.getElementById('#one').addEventListener("click", () => {
+      console.log('c0')
+    });
+  </script>
+</body>
+</html>

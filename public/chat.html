@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIVE CHAT </title>
+    <link rel="stylesheet" href="./bootstrap.min.css">
+    <style>
+        form{
+            padding-left: 30px;
+            padding-bottom: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding-right: 30px;
+        }
+
+        #messages {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            padding-right: 30px;
+            padding-left: 30px;
+        }
+
+        #messages li{
+            padding: 5px 10px;
+        }
+
+        /*#messages li:nth-child(even){
+            color: white;
+            background-color: gray;
+        }*/
+
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <ul id="messages">
+
+            </ul>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <form action="" id="message-form">
+                    <div class="input-group">
+                        <input type="text" autocomplete="off" id="m" class="form-control" placeholder="Message..." aria-label="Messages...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-success" style="background-color: #40E0D0;" type="submit">Send!</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="./jquery-3.4.1.min.js"></script>
+    <script src="./popper.min.js"></script>
+    <script src="./bootstrap.js"></script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const room ='chat.html';
+        const socket = io.connect('/tech');
+
+        $('form').submit(()=>{
+           let msg= $('#m').val();
+           socket.emit('message', {msg, room});
+           $('#m').val('');
+           return false;
+        })
+
+        socket.on('connect', ()=>{
+            socket.emit('join',{room: room});
+        });
+
+        socket.on('message', (msg)=>{
+            $('#messages').append($('<li>').text(msg));
+        })
+    </script>
+</body>
+</html>
